@@ -1,0 +1,1538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revolution Macro | AI-Powered Bee Swarm Simulator Macro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #0a1525;
+            --secondary-bg: #0d1c33;
+            --card-bg: #112240;
+            --accent-aqua: #00f7ff;
+            --accent-blue: #00a8ff;
+            --accent-purple: #8a2be2;
+            --accent-yellow: #ffd700;
+            --accent-red: #ff2e4d;
+            --text-primary: #ffffff;
+            --text-secondary: #a8b2d1;
+            --border-color: #2d3a5a;
+            --success-green: #00ff9d;
+            --error-red: #ff5555;
+            --gradient-aqua: linear-gradient(90deg, var(--accent-aqua), var(--accent-blue));
+            --gradient-full: linear-gradient(90deg, var(--accent-aqua), var(--accent-blue), var(--accent-purple));
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 247, 255, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(0, 168, 255, 0.05) 0%, transparent 20%);
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        section {
+            padding: 100px 0;
+        }
+        
+        /* Floating Discord Button */
+        .discord-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--gradient-aqua);
+            color: var(--primary-bg);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            box-shadow: 0 5px 20px rgba(0, 247, 255, 0.3);
+            z-index: 100;
+            transition: all 0.3s;
+            text-decoration: none;
+            animation: pulse-aqua 2s infinite;
+        }
+        
+        .discord-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(0, 247, 255, 0.5);
+        }
+        
+        @keyframes pulse-aqua {
+            0% { box-shadow: 0 0 0 0 rgba(0, 247, 255, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 247, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 247, 255, 0); }
+        }
+        
+        /* Header */
+        header {
+            padding: 20px 0;
+            background-color: rgba(10, 21, 37, 0.95);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 247, 255, 0.2);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+        
+        .logo-image {
+            width: 60px;
+            height: 60px;
+            margin-right: 15px;
+            border-radius: 10px;
+            overflow: hidden;
+            background: var(--gradient-aqua);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(0, 247, 255, 0.3);
+            transition: all 0.3s;
+        }
+        
+        .logo-image:hover {
+            transform: rotate(5deg) scale(1.1);
+        }
+        
+        .logo-image img {
+            width: 85%;
+            height: 85%;
+            object-fit: contain;
+            filter: brightness(1.2) contrast(1.1);
+        }
+        
+        .logo-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            background: var(--gradient-aqua);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px rgba(0, 247, 255, 0.3);
+            letter-spacing: 1px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 30px;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 16px;
+            transition: all 0.3s;
+            position: relative;
+            padding: 5px 0;
+        }
+        
+        nav ul li a:hover {
+            color: var(--accent-aqua);
+        }
+        
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-aqua);
+            transition: width 0.3s;
+        }
+        
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-primary);
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 200px 0 120px;
+            background: linear-gradient(135deg, var(--primary-bg) 0%, #0a1a2e 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 247, 255, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+        }
+        
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 168, 255, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-size: 56px;
+            margin-bottom: 25px;
+            background: var(--gradient-aqua);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.2;
+            text-shadow: 0 0 20px rgba(0, 247, 255, 0.3);
+        }
+        
+        .hero-subtitle {
+            font-size: 22px;
+            max-width: 800px;
+            margin: 0 auto 50px;
+            color: var(--text-secondary);
+        }
+        
+        .platform-badges {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+        
+        .platform-badge {
+            background-color: var(--card-bg);
+            padding: 18px 30px;
+            border-radius: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            min-width: 220px;
+            transition: all 0.3s;
+        }
+        
+        .platform-badge:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-aqua);
+            box-shadow: 0 12px 25px rgba(0, 247, 255, 0.2);
+        }
+        
+        .platform-icon {
+            font-size: 32px;
+        }
+        
+        .platform-windows .platform-icon {
+            color: var(--accent-aqua);
+        }
+        
+        .platform-mac .platform-icon {
+            color: var(--accent-blue);
+        }
+        
+        .platform-mobile .platform-icon {
+            color: var(--error-red);
+        }
+        
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+        
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        
+        .status-working {
+            background-color: var(--success-green);
+            box-shadow: 0 0 10px var(--success-green);
+        }
+        
+        .status-not-working {
+            background-color: var(--error-red);
+            box-shadow: 0 0 10px var(--error-red);
+        }
+        
+        .hero-badges {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+        
+        .badge {
+            background-color: var(--card-bg);
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+        
+        .badge:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-aqua);
+        }
+        
+        .badge i {
+            color: var(--accent-aqua);
+        }
+        
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 45px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 18px;
+            border-radius: 12px;
+            transition: all 0.3s;
+            font-family: 'Montserrat', sans-serif;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            gap: 12px;
+        }
+        
+        .btn-primary {
+            background: var(--gradient-aqua);
+            color: var(--primary-bg);
+            box-shadow: 0 8px 25px rgba(0, 247, 255, 0.3);
+            font-weight: 700;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 247, 255, 0.5);
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--accent-aqua);
+        }
+        
+        .btn-secondary:hover {
+            background-color: rgba(0, 247, 255, 0.1);
+            transform: translateY(-5px);
+        }
+        
+        .version-info {
+            margin-top: 30px;
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+        
+        /* Gameplay Section */
+        .gameplay {
+            background-color: var(--secondary-bg);
+            padding: 120px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 42px;
+            margin-bottom: 25px;
+            color: var(--text-primary);
+            background: var(--gradient-aqua);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto 70px;
+            color: var(--text-secondary);
+        }
+        
+        .gameplay-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-bottom: 70px;
+        }
+        
+        .gameplay-card {
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+            height: 100%;
+        }
+        
+        .gameplay-card:hover {
+            transform: translateY(-15px);
+            border-color: var(--accent-aqua);
+            box-shadow: 0 20px 40px rgba(0, 247, 255, 0.1);
+        }
+        
+        .gameplay-header {
+            padding: 25px;
+            background: linear-gradient(90deg, rgba(0, 247, 255, 0.1), rgba(0, 168, 255, 0.1));
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .gameplay-header h3 {
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .gameplay-header h3 i {
+            color: var(--accent-aqua);
+        }
+        
+        .gameplay-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .gameplay-content {
+            padding: 25px;
+        }
+        
+        .gameplay-content p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+        
+        .gameplay-list {
+            list-style: none;
+        }
+        
+        .gameplay-list li {
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .gameplay-list li i {
+            color: var(--accent-aqua);
+            margin-right: 12px;
+            font-size: 16px;
+        }
+        
+        /* Features Section */
+        .features {
+            background-color: var(--primary-bg);
+            padding: 120px 0;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-bottom: 70px;
+        }
+        
+        .feature-card {
+            background-color: var(--card-bg);
+            padding: 45px 35px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-15px);
+            border-color: var(--accent-aqua);
+            box-shadow: 0 20px 40px rgba(0, 247, 255, 0.1);
+        }
+        
+        .feature-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .feature-icon {
+            font-size: 52px;
+            background: var(--gradient-aqua);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .feature-card h3 {
+            font-size: 26px;
+            color: var(--text-primary);
+        }
+        
+        .feature-card p {
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+            font-size: 18px;
+        }
+        
+        .feature-list {
+            list-style: none;
+        }
+        
+        .feature-list li {
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .feature-list li i {
+            color: var(--accent-aqua);
+            margin-right: 12px;
+            font-size: 16px;
+        }
+        
+        /* Performance Table */
+        .performance {
+            background-color: var(--secondary-bg);
+            padding: 120px 0;
+        }
+        
+        .performance-table {
+            overflow-x: auto;
+            margin-top: 50px;
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            background-color: var(--card-bg);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+        
+        thead {
+            background: var(--gradient-aqua);
+        }
+        
+        th {
+            padding: 25px;
+            text-align: left;
+            color: var(--primary-bg);
+            font-weight: 700;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 18px;
+        }
+        
+        tbody tr {
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.3s;
+        }
+        
+        tbody tr:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+        
+        tbody tr:hover {
+            background-color: rgba(0, 247, 255, 0.05);
+        }
+        
+        td {
+            padding: 20px 25px;
+            color: var(--text-secondary);
+            font-size: 17px;
+        }
+        
+        .layer-number {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--accent-aqua);
+            font-weight: 700;
+            font-size: 20px;
+        }
+        
+        .feature-name {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        
+        /* Download Section */
+        .download {
+            background-color: var(--primary-bg);
+            text-align: center;
+            padding: 120px 0;
+        }
+        
+        .download-card {
+            background-color: var(--card-bg);
+            padding: 70px 50px;
+            border-radius: 25px;
+            max-width: 850px;
+            margin: 0 auto;
+            border: 2px solid var(--accent-aqua);
+            box-shadow: 0 20px 50px rgba(0, 247, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .download-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: var(--gradient-full);
+        }
+        
+        .download-info {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin: 50px 0;
+            flex-wrap: wrap;
+        }
+        
+        .info-item {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .info-icon {
+            font-size: 42px;
+            background: var(--gradient-aqua);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .info-text {
+            color: var(--text-secondary);
+            max-width: 200px;
+            font-size: 17px;
+        }
+        
+        .download-instructions {
+            background-color: rgba(0, 247, 255, 0.05);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 50px 0;
+            text-align: left;
+            border-left: 4px solid var(--accent-aqua);
+        }
+        
+        .download-instructions h4 {
+            color: var(--accent-aqua);
+            margin-bottom: 20px;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .download-instructions ol {
+            padding-left: 25px;
+            color: var(--text-secondary);
+            font-size: 17px;
+        }
+        
+        .download-instructions li {
+            margin-bottom: 15px;
+            padding-left: 10px;
+        }
+        
+        .warning-box {
+            background-color: rgba(0, 247, 255, 0.1);
+            border: 1px solid var(--accent-aqua);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 40px;
+            text-align: left;
+        }
+        
+        .warning-box h4 {
+            color: var(--accent-aqua);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+            padding: 80px 0 40px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 50px;
+            margin-bottom: 60px;
+        }
+        
+        .footer-column h3 {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: var(--text-primary);
+            background: var(--gradient-aqua);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .footer-column p {
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+            font-size: 17px;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 15px;
+        }
+        
+        .footer-links li a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 17px;
+        }
+        
+        .footer-links li a i {
+            width: 22px;
+            color: var(--accent-aqua);
+        }
+        
+        .footer-links li a:hover {
+            color: var(--accent-aqua);
+            transform: translateX(5px);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 18px;
+            margin-top: 25px;
+        }
+        
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background-color: var(--secondary-bg);
+            color: var(--text-primary);
+            border-radius: 50%;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 20px;
+        }
+        
+        .social-links a:hover {
+            background: var(--gradient-aqua);
+            color: var(--primary-bg);
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+        
+        /* Logo Placeholder */
+        .logo-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient-aqua);
+            color: var(--primary-bg);
+            font-size: 28px;
+            font-weight: 800;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .gameplay-grid, .features-grid {
+                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 48px;
+            }
+            
+            .hero-subtitle {
+                font-size: 20px;
+            }
+            
+            .section-title {
+                font-size: 36px;
+            }
+            
+            .gameplay-grid, .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--primary-bg);
+                flex-direction: column;
+                padding: 25px;
+                border-top: 1px solid var(--border-color);
+                box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            }
+            
+            nav ul.active {
+                display: flex;
+            }
+            
+            nav ul li {
+                margin: 18px 0;
+                margin-left: 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 40px;
+            }
+            
+            .hero {
+                padding: 160px 0 100px;
+            }
+            
+            section {
+                padding: 100px 0;
+            }
+            
+            .section-title {
+                font-size: 32px;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 350px;
+            }
+            
+            .platform-badge {
+                min-width: 100%;
+            }
+            
+            .download-card {
+                padding: 50px 30px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 34px;
+            }
+            
+            .hero-subtitle {
+                font-size: 18px;
+            }
+            
+            .feature-card, .gameplay-card {
+                padding: 35px 25px;
+            }
+            
+            .download-card {
+                padding: 40px 25px;
+            }
+            
+            .logo-text {
+                font-size: 28px;
+            }
+            
+            .logo-image {
+                width: 50px;
+                height: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Discord Button -->
+    <a href="https://discord.gg/RevolutionMacro" class="discord-float" target="_blank">
+        <i class="fab fa-discord"></i>
+    </a>
+    
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">
+                    <div class="logo-image">
+                        <!-- Logo sẽ được thêm vào đây từ Google Drive/Pinterest -->
+                        <div class="logo-placeholder">
+                            RM
+                        </div>
+                        <!-- 
+                        Để thêm logo từ Google Drive/Pinterest:
+                        1. Tải logo về máy
+                        2. Upload lên hosting của bạn
+                        3. Thay thế div trên bằng: <img src="URL_LOGO_CỦA_BẠN" alt="Revolution Macro Logo">
+                        -->
+                    </div>
+                    <div class="logo-text">RevolutionMacro</div>
+                </a>
+                
+                <nav>
+                    <ul id="navMenu">
+                        <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="#gameplay"><i class="fas fa-gamepad"></i> Gameplay</a></li>
+                        <li><a href="#features"><i class="fas fa-star"></i> Features</a></li>
+                        <li><a href="#performance"><i class="fas fa-chart-line"></i> Performance</a></li>
+                        <li><a href="#download"><i class="fas fa-download"></i> Download</a></li>
+                    </ul>
+                </nav>
+                
+                <button class="mobile-menu-btn" id="mobileMenuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>The Ultimate Bee Swarm Simulator Macro</h1>
+                <p class="hero-subtitle">Revolution is the next-generation AI-powered macro for Bee Swarm Simulator. Experience record-breaking performance with 125+ AI layers working together to maximize your honey production.</p>
+                
+                <div class="platform-badges">
+                    <div class="platform-badge platform-windows">
+                        <div class="platform-icon">
+                            <i class="fab fa-windows"></i>
+                        </div>
+                        <div>
+                            <div>Windows</div>
+                            <div class="status-indicator">
+                                <span class="status-dot status-working"></span>
+                                <span>Fully Supported</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="platform-badge platform-mac">
+                        <div class="platform-icon">
+                            <i class="fab fa-apple"></i>
+                        </div>
+                        <div>
+                            <div>macOS</div>
+                            <div class="status-indicator">
+                                <span class="status-dot status-working"></span>
+                                <span>Fully Supported</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="platform-badge platform-mobile">
+                        <div class="platform-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <div>
+                            <div>Mobile</div>
+                            <div class="status-indicator">
+                                <span class="status-dot status-not-working"></span>
+                                <span>Not Available</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="hero-badges">
+                    <div class="badge">
+                        <i class="fas fa-bolt"></i>
+                        <span>Latest Version: v0.9a</span>
+                    </div>
+                    <div class="badge">
+                        <i class="fas fa-code-branch"></i>
+                        <span>Actively Developed</span>
+                    </div>
+                    <div class="badge">
+                        <i class="fas fa-users"></i>
+                        <span>Active Community</span>
+                    </div>
+                </div>
+                
+                <div class="cta-buttons">
+                    <a href="#download" class="btn btn-primary">
+                        <i class="fas fa-download"></i>
+                        Download Revolution v0.9a
+                    </a>
+                    <a href="https://discord.gg/RevolutionMacro" target="_blank" class="btn btn-secondary">
+                        <i class="fab fa-discord"></i>
+                        Join Our Discord
+                    </a>
+                </div>
+                
+                <div class="version-info">
+                    <i class="fas fa-crown"></i> Built from the ground up with modern technology and innovative features
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gameplay Section -->
+    <section class="gameplay" id="gameplay">
+        <div class="container">
+            <h2 class="section-title">Revolution Macro in Action</h2>
+            <p class="section-subtitle">See how our AI-powered macro transforms your Bee Swarm Simulator experience</p>
+            
+            <div class="gameplay-grid">
+                <div class="gameplay-card">
+                    <div class="gameplay-header">
+                        <h3><i class="fas fa-robot"></i> AI Token Collection</h3>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2070&auto=format&fit=crop" alt="Bee Swarm Simulator Token Collection" class="gameplay-image">
+                    <div class="gameplay-content">
+                        <p>Watch Revolution's AI intelligently collect tokens based on dynamic priorities and your current buffs for maximum honey production.</p>
+                        <ul class="gameplay-list">
+                            <li><i class="fas fa-check"></i> Dynamic token priority system</li>
+                            <li><i class="fas fa-check"></i> Buff-based optimization</li>
+                            <li><i class="fas fa-check"></i> High-efficiency collection paths</li>
+                            <li><i class="fas fa-check"></i> Real-time adaptation to field conditions</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="gameplay-card">
+                    <div class="gameplay-header">
+                        <h3><i class="fas fa-seedling"></i> Planter Studio</h3>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=2070&auto=format&fit=crop" alt="Planter Management Interface" class="gameplay-image">
+                    <div class="gameplay-content">
+                        <p>Revolution's Planter Studio provides a modern, intuitive interface for scheduling and managing all your planters efficiently.</p>
+                        <ul class="gameplay-list">
+                            <li><i class="fas fa-check"></i> Interactive timeline scheduling</li>
+                            <li><i class="fas fa-check"></i> Visual nectar collection preview</li>
+                            <li><i class="fas fa-check"></i> AI-powered planter management</li>
+                            <li><i class="fas fa-check"></i> Multi-planter coordination</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="gameplay-card">
+                    <div class="gameplay-header">
+                        <h3><i class="fas fa-tachometer-alt"></i> Performance Dashboard</h3>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop" alt="Performance Analytics Dashboard" class="gameplay-image">
+                    <div class="gameplay-content">
+                        <p>Monitor your macro's performance with detailed real-time statistics, analytics, and optimization suggestions.</p>
+                        <ul class="gameplay-list">
+                            <li><i class="fas fa-check"></i> Real-time performance metrics</li>
+                            <li><i class="fas fa-check"></i> Honey production analytics</li>
+                            <li><i class="fas fa-check"></i> Resource usage monitoring</li>
+                            <li><i class="fas fa-check"></i> Optimization recommendations</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Revolutionary AI Features</h2>
+            <p class="section-subtitle">Pushing the boundaries of what a macro can do with 125+ AI layers</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-header">
+                        <div class="feature-icon">
+                            <i class="fas fa-route"></i>
+                        </div>
+                        <h3>Advanced AI Pathfinding</h3>
+                    </div>
+                    <p>Intelligent route calculation with support for cannons, portals, and optimal field transitions. Always takes the fastest routes available.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check"></i> Cannon and portal navigation</li>
+                        <li><i class="fas fa-check"></i> Dynamic obstacle avoidance</li>
+                        <li><i class="fas fa-check"></i> Multi-layer route optimization</li>
+                        <li><i class="fas fa-check"></i> Real-time path adjustment</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-header">
+                        <div class="feature-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <h3>Record-Breaking Vic Hop</h3>
+                    </div>
+                    <p>Hop public servers at record speeds—only one minute per server. Collect hundreds of stingers daily with multi-alt support.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check"></i> 60-second server hops</li>
+                        <li><i class="fas fa-check"></i> Customizable field search</li>
+                        <li><i class="fas fa-check"></i> Multi-account coordination</li>
+                        <li><i class="fas fa-check"></i> AI battle system for quick kills</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-header">
+                        <div class="feature-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>Intelligent RBC Automation</h3>
+                    </div>
+                    <p>AI-powered pathfinding to pollinate your quest fields with zero input required during Royal Jelly challenges.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check"></i> Automatic quest detection</li>
+                        <li><i class="fas fa-check"></i> Optimal field transitions</li>
+                        <li><i class="fas fa-check"></i> Completion tracking</li>
+                        <li><i class="fas fa-check"></i> Easy alt management controls</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-header">
+                        <div class="feature-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <h3>AI-Powered Planters</h3>
+                    </div>
+                    <p>Planter Studio with modern scheduling system and timeline-based visualization for optimal nectar collection.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check"></i> Interactive scheduling interface</li>
+                        <li><i class="fas fa-check"></i> Customizable AI algorithms</li>
+                        <li><i class="fas fa-check"></i> Advanced collection pathing</li>
+                        <li><i class="fas fa-check"></i> Harvest optimization</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-header">
+                        <div class="feature-icon">
+                            <i class="fas fa-box-open"></i>
+                        </div>
+                        <h3>Advanced Collection System</h3>
+                    </div>
+                    <p>Collect loot from dispensers around the map with intelligent AI pathing and priority-based collection logic.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check"></i> Automatic dispenser detection</li>
+                        <li><i class="fas fa-check"></i> Priority-based collection</li>
+                        <li><i class="fas fa-check"></i> Multi-alt coordination</li>
+                        <li><i class="fas fa-check"></i> Resource optimization</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-header">
+                        <div class="feature-icon">
+                            <i class="fas fa-code-branch"></i>
+                        </div>
+                        <h3>Actively Developed</h3>
+                    </div>
+                    <p>New AI-powered features and improvements are regularly added with cross-platform support and community-driven development.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check"></i> Weekly updates and improvements</li>
+                        <li><i class="fas fa-check"></i> Windows & macOS support</li>
+                        <li><i class="fas fa-check"></i> Community feature requests</li>
+                        <li><i class="fas fa-check"></i> Bug fixes and optimization</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Performance Table -->
+    <section class="performance" id="performance">
+        <div class="container">
+            <h2 class="section-title">125+ AI Performance Layers</h2>
+            <p class="section-subtitle">Multi-layered AI system for optimal performance and efficiency</p>
+            
+            <div class="performance-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>AI System</th>
+                            <th>Description</th>
+                            <th>Number of Layers</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="feature-name">Advanced Pathfinding System</td>
+                            <td>Intelligent route calculation, obstacle avoidance, and navigation optimization</td>
+                            <td class="layer-number">24</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Token Collection AI</td>
+                            <td>Dynamic token priority, buff analysis, and collection optimization</td>
+                            <td class="layer-number">18</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Combat & Battle System</td>
+                            <td>Vicious Bee targeting, mob combat logic, and battle optimization</td>
+                            <td class="layer-number">15</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Planter Management AI</td>
+                            <td>Schedule optimization, pathing, and harvest management</td>
+                            <td class="layer-number">22</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Resource Collection</td>
+                            <td>Dispenser detection, priority collection, and resource management</td>
+                            <td class="layer-number">16</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Anti-Detection System</td>
+                            <td>Human-like behavior simulation and pattern randomization</td>
+                            <td class="layer-number">12</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">Performance Optimization</td>
+                            <td>Resource management, efficiency algorithms, and system monitoring</td>
+                            <td class="layer-number">18</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name"><strong>Total AI Layers</strong></td>
+                            <td><strong>Complete system integration and coordination</strong></td>
+                            <td class="layer-number">125</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section class="download" id="download">
+        <div class="container">
+            <h2 class="section-title">Ready to Revolutionize Your Gameplay?</h2>
+            <p class="section-subtitle">Join thousands of players who have upgraded their Bee Swarm Simulator experience</p>
+            
+            <div class="download-card">
+                <h3 style="font-size: 32px; margin-bottom: 20px;">Download Revolution Macro v0.9a</h3>
+                <p style="font-size: 20px; margin-bottom: 30px; color: var(--accent-aqua);">The most advanced AI-powered macro with 125+ performance layers</p>
+                
+                <div class="download-info">
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="info-text">Record-Breaking Performance</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="info-text">125+ AI Layers</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="info-text">Advanced Anti-Detection</div>
+                    </div>
+                </div>
+                
+                <a href="https://github.com/nosyliam/revolution-macro/releases/download/v0.9a/RevolutionMacro.exe" class="btn btn-primary" style="padding: 25px 60px; font-size: 22px; margin: 30px 0;">
+                    <i class="fas fa-download"></i>
+                    Download RevolutionMacro.exe
+                </a>
+                
+                <div class="download-instructions">
+                    <h4><i class="fas fa-info-circle"></i> Installation Instructions</h4>
+                    <ol>
+                        <li>Click the download button above to get RevolutionMacro.exe</li>
+                        <li>Save the file to your preferred location (Desktop recommended)</li>
+                        <li>Run the executable file (Windows may show a security warning - this is normal)</li>
+                        <li>Follow the setup wizard to install Revolution Macro</li>
+                        <li>Launch Bee Swarm Simulator and start the macro from the system tray</li>
+                        <li>Configure your settings and enjoy automated gameplay!</li>
+                    </ol>
+                </div>
+                
+                <div class="warning-box">
+                    <h4><i class="fas fa-exclamation-triangle"></i> Important Legal Notice</h4>
+                    <p>This product is not affiliated with, endorsed, sponsored, or specifically approved by Roblox Corporation. Bee Swarm Simulator is a registered trademark of Onett. Use of this macro is at your own risk. Always follow Roblox Terms of Service. We do not condone cheating and recommend using macros responsibly.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Revolution Macro</h3>
+                    <p>The ultimate AI-powered macro for Bee Swarm Simulator. Built with 125+ performance layers for maximum efficiency and results.</p>
+                    <div class="social-links">
+                        <a href="https://discord.gg/RevolutionMacro" target="_blank"><i class="fab fa-discord"></i></a>
+                        <a href="https://github.com/nosyliam/revolution-macro" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Navigation</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="#gameplay"><i class="fas fa-gamepad"></i> Gameplay</a></li>
+                        <li><a href="#features"><i class="fas fa-star"></i> Features</a></li>
+                        <li><a href="#performance"><i class="fas fa-chart-line"></i> Performance</a></li>
+                        <li><a href="#download"><i class="fas fa-download"></i> Download</a></li>
+                        <li><a href="https://discord.gg/RevolutionMacro" target="_blank"><i class="fab fa-discord"></i> Discord Community</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Platform Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fab fa-windows"></i> Windows - Fully Supported</a></li>
+                        <li><a href="#"><i class="fab fa-apple"></i> macOS - Fully Supported</a></li>
+                        <li><a href="#"><i class="fas fa-mobile-alt"></i> Mobile - Not Available</a></li>
+                        <li><a href="#"><i class="fas fa-desktop"></i> Cross-Platform Compatibility</a></li>
+                        <li><a href="#"><i class="fas fa-code-branch"></i> Actively Developed</a></li>
+                        <li><a href="#"><i class="fas fa-users"></i> Active Community</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 Revolution Macro. This product is not affiliated with, endorsed, sponsored, or specifically approved by Roblox Corporation. Bee Swarm Simulator is a registered trademark of Onett.</p>
+                <p style="margin-top: 15px;">Direct Download Link: <a href="https://github.com/nosyliam/revolution-macro/releases/download/v0.9a/RevolutionMacro.exe" style="color: var(--accent-aqua); text-decoration: none;">https://github.com/nosyliam/revolution-macro/releases/download/v0.9a/RevolutionMacro.exe</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const navMenu = document.getElementById('navMenu');
+        
+        mobileMenuToggle.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            
+            // Change icon
+            const icon = this.querySelector('i');
+            if (icon.classList.contains('fa-bars')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+        
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function() {
+                navMenu.classList.remove('active');
+                
+                // Change icon back to bars
+                const icon = mobileMenuToggle.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            });
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                if(this.getAttribute('href') !== '#') {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Add scroll effect to header
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.backgroundColor = 'rgba(10, 21, 37, 0.98)';
+                header.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.3)';
+            } else {
+                header.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.2)';
+            }
+        });
+        
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Observe elements to animate
+        document.querySelectorAll('.gameplay-card, .feature-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s, transform 0.6s';
+            observer.observe(el);
+        });
+        
+        // Table row hover enhancement
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.01)';
+                this.style.boxShadow = '0 5px 15px rgba(0, 247, 255, 0.1)';
+            });
+            
+            row.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+                this.style.boxShadow = 'none';
+            });
+        });
+        
+        // Instructions để thêm logo từ Google Drive/Pinterest
+        console.log("Để thêm logo từ Google Drive/Pinterest:");
+        console.log("1. Tải logo từ link: https://share.google/6fwj5D4UpnIRdDztS hoặc https://pin.it/3xXOWpTUQ");
+        console.log("2. Upload logo lên hosting của bạn (ví dụ: Imgur, Google Photos với link chia sẻ công khai)");
+        console.log("3. Thay thế div.logo-placeholder trong header bằng: <img src='URL_LOGO_CỦA_BẠN' alt='Revolution Macro Logo'>");
+        console.log("4. Điều chỉnh CSS nếu cần để logo hiển thị đẹp");
+    </script>
+</body>
+</html>
