@@ -1,213 +1,240 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vortx Hub | Premium Dashboard</title>
+    <title>NURSULTAN | BLOX FRUIT ULTIMATE</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;800&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            --accent: #7d5fff;
-            --bg: #050505;
-            --glass: rgba(255, 255, 255, 0.03);
-            --border: rgba(255, 255, 255, 0.1);
-            --success: #00ff88;
-            --danger: #ff4d4d;
+            --accent: #0084ff;
+            --bg: #000000;
+            --card: rgba(18, 18, 18, 0.8);
+            --border: rgba(255, 255, 255, 0.08);
         }
 
         body {
-            background: radial-gradient(circle at top right, #1a1a2e, #050505);
+            background: var(--bg);
             color: #fff;
-            font-family: 'Inter', -apple-system, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             margin: 0;
-        }
-
-        .main-card {
-            background: var(--glass);
-            backdrop-filter: blur(25px);
-            border: 1px solid var(--border);
-            border-radius: 28px;
-            width: 440px;
-            padding: 30px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
-            position: relative;
-        }
-
-        /* Hiệu ứng viền LED chạy nhẹ */
-        .main-card::before {
-            content: "";
-            position: absolute;
-            inset: -1px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-            border-radius: 28px;
-            z-index: -1;
-            opacity: 0.3;
-        }
-
-        .header {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
+            height: 100vh;
+            overflow: hidden;
         }
 
-        .header h1 {
-            font-size: 1.3rem;
-            letter-spacing: 3px;
-            margin: 0;
-            background: linear-gradient(90deg, #fff, var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .cheat-item {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid var(--border);
-            border-radius: 18px;
-            padding: 20px;
-            margin-bottom: 15px;
-            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .cheat-item:hover {
-            border-color: var(--accent);
-            background: rgba(125, 95, 255, 0.05);
-            transform: translateY(-3px);
-        }
-
-        .item-top {
+        /* --- SIDEBAR PC --- */
+        .sidebar {
+            width: 280px;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid var(--border);
             display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 15px;
+            flex-direction: column;
+            padding: 40px 15px;
+            z-index: 100;
         }
 
-        .name-box b { display: block; font-size: 1rem; color: #fff; }
-        .name-box span { font-size: 0.75rem; color: var(--accent); font-weight: bold; }
-
-        .status-badge {
-            font-size: 0.65rem;
-            padding: 5px 10px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-weight: 800;
+        .logo {
+            font-weight: 800; font-size: 22px; text-align: center;
+            margin-bottom: 40px; color: var(--accent); text-shadow: 0 0 15px rgba(0,132,255,0.4);
         }
 
-        .status-badge.work { color: var(--success); background: rgba(0, 255, 136, 0.1); border: 1px solid rgba(0, 255, 136, 0.2); }
-        .status-badge.die { color: var(--danger); background: rgba(255, 77, 77, 0.1); border: 1px solid rgba(255, 77, 77, 0.2); }
-
-        .dot { width: 6px; height: 6px; border-radius: 50%; }
-        .work .dot { background: var(--success); box-shadow: 0 0 10px var(--success); }
-        .die .dot { background: var(--danger); box-shadow: 0 0 10px var(--danger); }
-
-        .actions { display: flex; gap: 10px; }
-
-        .btn {
-            flex: 1;
-            padding: 12px;
-            border-radius: 10px;
-            border: none;
-            cursor: pointer;
-            font-size: 0.8rem;
-            font-weight: 700;
-            transition: 0.2s;
-            text-decoration: none;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .nav-item {
+            padding: 16px 20px; border-radius: 18px; margin-bottom: 8px;
+            color: #666; cursor: pointer; display: flex; align-items: center;
+            gap: 15px; transition: 0.3s; font-weight: 600;
         }
 
-        .btn-dl { background: var(--accent); color: white; box-shadow: 0 4px 15px rgba(125, 95, 255, 0.3); }
-        .btn-dl:hover { transform: scale(1.05); filter: brightness(1.2); }
+        .nav-item.active {
+            background: var(--accent); color: #fff;
+            box-shadow: 0 10px 25px rgba(0, 132, 255, 0.3);
+        }
+
+        /* --- CONTENT --- */
+        .main { flex: 1; padding: 40px; overflow-y: auto; scroll-behavior: smooth; }
+        .tab-panel { display: none; animation: slideUp 0.4s ease forwards; }
+        .tab-panel.active { display: block; }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
         
-        .btn-check { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--border); }
-        .btn-check:hover { background: rgba(255,255,255,0.15); }
-
-        .footer-text {
-            text-align: center;
-            font-size: 0.65rem;
-            color: #444;
-            margin-top: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .card {
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: 26px; padding: 25px; backdrop-filter: blur(10px);
         }
+
+        h1 { font-size: 38px; font-weight: 800; margin: 0 0 10px; }
+        .subtitle { color: #555; margin-bottom: 40px; }
+
+        /* NÚT BẤM SIÊU ĐẸP */
+        .btn-premium {
+            background: #fff; color: #000; border: none;
+            padding: 15px; width: 100%; border-radius: 16px;
+            font-weight: 800; cursor: pointer; margin-top: 15px;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            transition: 0.2s;
+        }
+
+        .btn-premium:active { transform: scale(0.95); background: var(--accent); color: #fff; }
+
+        .code-block {
+            background: #000; padding: 12px; border-radius: 12px;
+            font-size: 11px; color: #00ff88; margin-top: 12px;
+            border: 1px solid #1a1a1a; word-break: break-all; font-family: monospace;
+        }
+
+        /* --- MOBILE --- */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%);
+                width: 92%; height: 75px; flex-direction: row; padding: 0 10px;
+                border: 1px solid var(--border); border-radius: 22px;
+            }
+            .logo, .nav-item span { display: none; }
+            .nav-item { flex: 1; justify-content: center; margin: 0; height: 100%; border-radius: 15px; }
+            .nav-item.active { background: transparent; color: var(--accent); box-shadow: none; }
+            .main { padding: 20px; padding-bottom: 110px; }
+            h1 { font-size: 28px; }
+        }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-<div class="main-card">
-    <div class="header">
-        <h1>VORTX HUB</h1>
-        <div style="font-size: 0.6rem; color: #666; border: 1px solid #333; padding: 3px 8px; border-radius: 5px;">BETA 3.0</div>
-    </div>
+    <nav class="sidebar">
+        <div class="logo">NURSULTAN</div>
+        <div class="nav-item active" onclick="switchTab(this, 't-exec')"><i class="fa-solid fa-bolt"></i> <span>Executors</span></div>
+        <div class="nav-item" onclick="switchTab(this, 't-main')"><i class="fa-solid fa-code"></i> <span>Main Script</span></div>
+        <div class="nav-item" onclick="switchTab(this, 't-kaitun')"><i class="fa-solid fa-robot"></i> <span>Kaitun</span></div>
+        <div class="nav-item" onclick="switchTab(this, 't-fruit')"><i class="fa-solid fa-apple-whole"></i> <span>Find Fruit</span></div>
+    </nav>
 
-    <div class="cheat-item">
-        <div class="item-top">
-            <div class="name-box">
-                <b>Ronix Engine</b>
-                <span>UNC: 100% (STABLE)</span>
+    <main class="main">
+        <section id="t-exec" class="tab-panel active">
+            <h1>Executors</h1>
+            <p class="subtitle">Đầy đủ các bản Client gốc và Clone.</p>
+            <div class="grid">
+                <div class="card">
+                    <h3>Codex VNG (Gốc)</h3>
+                    <p>32/64Bit - Font thường.</p>
+                    <button class="btn-premium" onclick="window.open('https://www.mediafire.com/file/4zl10h18wm6gobu/Codex+VNG+32Bit+&+64Bit+Font+Chữ+Thường.apk/file')">DOWNLOAD</button>
+                </div>
+                <div class="card">
+                    <h3>Codex Clone (VN)</h3>
+                    <p>Bản Clone Server Việt Nam.</p>
+                    <button class="btn-premium" onclick="window.open('https://gofile.io/d/qHtPpG')">DOWNLOAD CLONE</button>
+                </div>
+                <div class="card">
+                    <h3>Codex Clone (Global)</h3>
+                    <p>Bản Clone Server thường.</p>
+                    <button class="btn-premium" onclick="window.open('https://gofile.io/d/Vy9Ww6')">DOWNLOAD CLONE</button>
+                </div>
+                <div class="card">
+                    <h3>Delta X VNG (Gốc)</h3>
+                    <p>Fix lag cực mạnh cho VNG.</p>
+                    <button class="btn-premium" onclick="window.open('https://www.mediafire.com/file/48gx109a2hnao4h/Delta%C3%97VNG%2BFixlag%F0%9F%87%BB%F0%9F%87%B3.apk/file')">DOWNLOAD</button>
+                </div>
+                <div class="card">
+                    <h3>Delta X Clone (VNG)</h3>
+                    <p>Bản Clone Fix Lag VNG.</p>
+                    <button class="btn-premium" onclick="window.open('https://gofile.io/d/dlADZF')">DOWNLOAD CLONE</button>
+                </div>
             </div>
-            <div class="status-badge work"><div class="dot"></div> WORK</div>
-        </div>
-        <div class="actions">
-            <a href="https://wearedevs.net/d/Ronix" target="_blank" class="btn btn-dl">DOWNLOAD</a>
-            <button class="btn btn-check" onclick="scan(this)">CHECK WORK</button>
-        </div>
-    </div>
+        </section>
 
-    <div class="cheat-item">
-        <div class="item-top">
-            <div class="name-box">
-                <b>Solara Executor</b>
-                <span>UNC: 86% (LEVEL 3)</span>
+        <section id="t-main" class="tab-panel">
+            <h1>Main Scripts</h1>
+            <div class="grid">
+                <div class="card">
+                    <h3>Gravity Hub (Main)</h3>
+                    <div class="code-block">loadstring(game:HttpGet("https://raw.githubusercontent.com/Dev-GravityHub/BloxFruit/refs/heads/main/Main.lua"))()</div>
+                    <button class="btn-premium" onclick="copy(this)">COPY SCRIPT</button>
+                </div>
+                <div class="card">
+                    <h3>Redz Hub (Global)</h3>
+                    <div class="code-block">loadstring(game:HttpGet("https://raw.githubusercontent.com/tlredz/Scripts/refs/heads/main/main.luau"))(Settings)</div>
+                    <button class="btn-premium" onclick="copy(this)">COPY SCRIPT</button>
+                </div>
+                <div class="card">
+                    <h3>Teddy Hub Freemium</h3>
+                    <div class="code-block">loadstring(game:HttpGet("https://raw.githubusercontent.com/Teddyseetink/Haidepzai/refs/heads/main/TEDDYHUB-FREEMIUM"))()</div>
+                    <button class="btn-premium" onclick="copy(this)">COPY SCRIPT</button>
+                </div>
+                <div class="card">
+                    <h3>Night Hub Mobile</h3>
+                    <div class="code-block">loadstring(game:HttpGet("https://raw.githubusercontent.com/WhiteX1208/Scripts/refs/heads/main/BF-Beta.lua"))()</div>
+                    <button class="btn-premium" onclick="copy(this)">COPY SCRIPT</button>
+                </div>
             </div>
-            <div class="status-badge work"><div class="dot"></div> WORK</div>
-        </div>
-        <div class="actions">
-            <a href="https://wearedevs.net/d/Solara" target="_blank" class="btn btn-dl">DOWNLOAD</a>
-            <button class="btn btn-check" onclick="scan(this)">CHECK WORK</button>
-        </div>
-    </div>
+        </section>
 
-    <div class="cheat-item">
-        <div class="item-top">
-            <div class="name-box">
-                <b>Bunni Ver</b>
-                <span>UNC: 0% (PATCHED)</span>
+        <section id="t-kaitun" class="tab-panel">
+            <h1>Kaitun Scripts</h1>
+            <div class="grid">
+                <div class="card">
+                    <h3>Gravity Hub (Kaitun)</h3>
+                    <div class="code-block">repeat wait() until game:IsLoaded(); loadstring(game:HttpGet("https://raw.githubusercontent.com/Dev-GravityHub/BloxFruit/refs/heads/main/Kaitun.lua"))()</div>
+                    <button class="btn-premium" onclick="copy(this)">COPY SCRIPT</button>
+                </div>
+                <div class="card">
+                    <h3>Xeter Hub V4</h3>
+                    <div class="code-block">getgenv().Version = "V4"; getgenv().Team = "Marines"; loadstring(game:HttpGet("https://raw.githubusercontent.com/TlDinhKhoi/Xeter/refs/heads/main/Main.lua"))()</div>
+                    <button class="btn-premium" onclick="copy(this)">COPY SCRIPT</button>
+                </div>
+                <div class="card">
+                    <h3>Switch Hub Kaitun</h3>
+                    <div class="code-block">loadstring(game:HttpGet("https://raw.githubusercontent.com/q8ta0e/roblox/main/SwitchHubKaitun.lua"))()</div>
+                    <button class="btn-premium" onclick="copy(this)">COPY SCRIPT</button>
+                </div>
+                <div class="card">
+                    <h3>Kaitun By None</h3>
+                    <div class="code-block">loadstring(game:HttpGet("https://raw.githubusercontent.com/bundac/Flygui/refs/heads/main/kaitunbolockitphore.lua.txt"))()</div>
+                    <button class="btn-premium" onclick="copy(this)">COPY SCRIPT</button>
+                </div>
             </div>
-            <div class="status-badge die"><div class="dot"></div> NOT WORK</div>
-        </div>
-        <div class="actions">
-            <a href="https://wearedevs.net/d/Bunni" target="_blank" class="btn btn-check" style="width: 100%;">DOWNLOAD (PATCHED)</a>
-        </div>
-    </div>
+        </section>
 
-    <div class="footer-text">Protection System: Active | No Malware Detected</div>
-</div>
+        <section id="t-fruit" class="tab-panel">
+            <h1>Fruit Finder</h1>
+            <div class="grid">
+                <div class="card">
+                    <h3>Gravity (Find Fruit)</h3>
+                    <p>Tự động tìm trái ác quỷ (Team Marines).</p>
+                    <div class="code-block">getgenv().Team = "Marines"; loadstring(game:HttpGet("https://raw.githubusercontent.com/Dev-GravityHub/BloxFruit/refs/heads/main/FindFruit.lua"))()</div>
+                    <button class="btn-premium" onclick="copy(this)">COPY SCRIPT</button>
+                </div>
+            </div>
+        </section>
+    </main>
 
-<script>
-    function scan(btn) {
-        const oldText = btn.innerText;
-        btn.innerText = "Scanning...";
-        btn.style.opacity = "0.5";
-        
-        setTimeout(() => {
-            btn.innerText = "Verified ✅";
-            btn.style.color = "#00ff88";
-            btn.style.opacity = "1";
+    <script>
+        // HÀM CHUYỂN TAB
+        function switchTab(btn, id) {
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById(id).classList.add('active');
+        }
+
+        // HÀM COPY
+        function copy(btn) {
+            const code = btn.previousElementSibling.innerText;
+            navigator.clipboard.writeText(code);
+            const oldText = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-check"></i> COPIED!';
+            btn.style.background = "#00ff88";
             setTimeout(() => {
-                btn.innerText = oldText;
-                btn.style.color = "#fff";
+                btn.innerHTML = oldText;
+                btn.style.background = "#fff";
             }, 2000);
-        }, 1200);
-    }
-</script>
+        }
 
+        // BƠM DỮ LIỆU TĂNG MB
+        const heavyData = "NURSULTAN_ULTIMATE_COLLECTION_".repeat(20000);
+    </script>
 </body>
 </html>
